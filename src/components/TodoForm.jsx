@@ -6,15 +6,15 @@ export default function TodoForm({ onCreate }) {
   const [form, setForm] = useState({
     title: "",
     description: "",
-    userId: "",
     status: "TODO",
   });
+
   const [loading, setLoading] = useState(false);
   const [backendError, setBackendError] = useState("");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setBackendError(""); // clear previous errors when user types
+    setBackendError("");
   };
 
   const handleSubmit = async (e) => {
@@ -25,22 +25,26 @@ export default function TodoForm({ onCreate }) {
     try {
       await onCreate(form); // call parent create handler
       toast.success("Todo created!");
-      setForm({ title: "", description: "", userId: "", status: "TODO" });
+
+      // reset form
+      setForm({
+        title: "",
+        description: "",
+        status: "TODO",
+      });
     } catch (error) {
-      // Show backend error
       const message =
         error.response?.data?.message ||
         error.message ||
         "Failed to create todo";
+
       setBackendError(message);
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ Disable Add button if any field is empty
-  const isFormIncomplete =
-    !form.title || !form.description || !form.userId || !form.status;
+  const isFormIncomplete = !form.title || !form.description;
 
   return (
     <>
@@ -57,15 +61,6 @@ export default function TodoForm({ onCreate }) {
           name="description"
           placeholder="Description"
           value={form.description}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          name="userId"
-          placeholder="User ID"
-          type="number"
-          value={form.userId}
           onChange={handleChange}
           required
         />

@@ -16,7 +16,7 @@ export default function TodoBoard() {
     const loadTodos = async () => {
       try {
         const response = await getTodos();
-        if (isMounted) setTodos(response.data);
+        if (isMounted) setTodos(response.data ?? []);
       } catch (error) {
         console.error("Failed to load todos", error);
       }
@@ -34,7 +34,7 @@ export default function TodoBoard() {
     try {
       await createTodo(data);
       const response = await getTodos();
-      setTodos(response.data);
+      setTodos(response.data ?? []);
     } catch (error) {
       console.error("Failed to create todo", error);
       throw error; // re-throw for form error handling
@@ -54,9 +54,9 @@ export default function TodoBoard() {
     const updatedTodo = { ...todo, status: destination.droppableId };
 
     try {
-      await updateTodo(draggableId, updatedTodo); // send full todo
+      await updateTodo(todo.id, updatedTodo);
       const response = await getTodos();
-      setTodos(response.data);
+      setTodos(response.data ?? []);
     } catch (error) {
       console.error("Failed to update todo", error);
     }
@@ -64,9 +64,15 @@ export default function TodoBoard() {
 
   // --- Group todos by status ---
   const grouped = STATUSES.reduce((acc, status) => {
-    acc[status] = todos.filter((t) => t.status === status);
+    acc[status] = [];
     return acc;
   }, {});
+
+  todos.forEach((t) => {
+    const s = t.status ?? "TODO";
+    if (!grouped[s]) grouped[s] = [];
+    grouped[s].push(t);
+  });
 
   return (
     <div>
@@ -75,7 +81,7 @@ export default function TodoBoard() {
       <DragDropContext onDragEnd={onDragEnd}>
         <div style={{ display: "flex", gap: "10px" }}>
           {STATUSES.map((s) => (
-            <TodoColumn key={s} title={s} items={grouped[s]} />
+            <TodoColumn key={s} title={s} items={grouped[s] ?? []} />
           ))}
         </div>
       </DragDropContext>

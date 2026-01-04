@@ -2,6 +2,8 @@ import React from "react";
 import { Draggable } from "@hello-pangea/dnd";
 
 export default function TodoItem({ item, index }) {
+  if (!item) return null;
+
   return (
     <Draggable draggableId={item.id.toString()} index={index}>
       {(provided) => (
@@ -11,17 +13,31 @@ export default function TodoItem({ item, index }) {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           style={{
-            padding: "10px",
-            marginBottom: "8px",
             background: "#fff",
             borderRadius: "6px",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+            padding: "12px",
+            marginBottom: "10px",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "4px",
             ...provided.draggableProps.style,
           }}
         >
-          <strong>{item.title}</strong>
-          <p>{item.description}</p>
-          <small>User: {item.userId}</small>
+          {/* Title */}
+          <div style={{ fontWeight: 600, fontSize: "14px" }}>
+            {item.title ?? "(no title)"}
+          </div>
+
+          {/* Description */}
+          <div style={{ fontSize: "13px", opacity: 0.85 }}>
+            {item.description ?? ""}
+          </div>
+
+          {/* User */}
+          <div style={{ fontSize: "11px", opacity: 0.6 }}>
+            User: {item.userId ?? "unknown"}
+          </div>
         </div>
       )}
     </Draggable>

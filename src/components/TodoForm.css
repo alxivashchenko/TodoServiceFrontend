@@ -1,5 +1,6 @@
 .todo-form {
   display: flex;
+  flex-wrap: wrap; /* responsive */
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
@@ -7,9 +8,10 @@
   padding: 10px 12px;
   background: #f7f7f9;
   border-radius: 8px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Inputs and Select */
 .todo-form input,
 .todo-form select {
   padding: 6px 10px;
@@ -18,15 +20,17 @@
   font-size: 14px;
   background: white;
   transition: 0.2s ease;
+  min-width: 160px;
 }
 
 .todo-form input:focus,
 .todo-form select:focus {
   border-color: #5a8dee;
-  box-shadow: 0 0 0 2px rgba(90,141,238,0.2);
+  box-shadow: 0 0 0 2px rgba(90, 141, 238, 0.2);
   outline: none;
 }
 
+/* Button */
 .todo-form button {
   padding: 6px 14px;
   font-size: 14px;
@@ -38,28 +42,22 @@
   transition: 0.2s ease;
 }
 
-/* Hover effect for active button */
 .todo-form button:hover:not(:disabled) {
   background: #4876d1;
 }
 
-/* Visual style for disabled button */
 .todo-form button:disabled {
   background: #c0c4cc;
   cursor: not-allowed;
   color: #666;
 }
 
-
-.todo-form button:hover {
-  background: #4876d1;
-}
 /* Spinner */
 .spinner {
   width: 16px;
   height: 16px;
   border: 3px solid #fff;
-  border-top: 3px solid #5a8dee;
+  border-top: 3px solid #4876d1;
   border-radius: 50%;
   animation: spin 1s linear infinite;
   display: inline-block;
@@ -70,7 +68,7 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Backend error */
+/* Backend error message */
 .backend-error {
   color: #d9534f;
   font-size: 13px;
