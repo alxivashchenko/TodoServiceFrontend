@@ -1,23 +1,36 @@
-// src/auth/AuthProvider.jsx
-import React, { useState } from "react";
-import { AuthContext } from "./AuthContext";
+import { useState } from "react";
+import AuthContext from "./AuthContext";
+import { login, register, logout } from "../api/authApi";
 
-export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("jwt"));
+export default function AuthProvider({ children }) {
+  const [accessToken, setAccessToken] = useState(null);
 
-  const login = (jwt) => {
-    localStorage.setItem("jwt", jwt);
-    setToken(jwt);
+  const loginUser = async (credentials) => {
+    const res = await login(credentials);
+    localStorage.setItem("accessToken", res.data.accessToken);
+    setAccessToken(res.data.accessToken);
   };
 
-  const logout = () => {
-    localStorage.removeItem("jwt");
-    setToken(null);
+  const registerUser = async (data) => {
+    await register(data);
+  };
+
+  const logoutUser = async () => {
+    await logout();
+    localStorage.removeItem("accessToken");
+    setAccessToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated: !!accessToken,
+        loginUser,
+        registerUser,
+        logoutUser,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
-};
+}

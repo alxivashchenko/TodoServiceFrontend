@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./TodoForm.css";
-import toast, { Toaster } from "react-hot-toast";
 
 export default function TodoForm({ onCreate }) {
   const [form, setForm] = useState({
@@ -12,21 +11,23 @@ export default function TodoForm({ onCreate }) {
   const [loading, setLoading] = useState(false);
   const [backendError, setBackendError] = useState("");
 
+  // --- Handle input changes ---
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
     setBackendError("");
   };
 
+  // --- Submit form ---
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setBackendError("");
 
     try {
-      await onCreate(form); // call parent create handler
-      toast.success("Todo created!");
+      // parent handles API + toast
+      await onCreate(form);
 
-      // reset form
+      // reset form on success
       setForm({
         title: "",
         description: "",
@@ -79,8 +80,6 @@ export default function TodoForm({ onCreate }) {
       </form>
 
       {backendError && <div className="backend-error">{backendError}</div>}
-
-      <Toaster position="top-right" />
     </>
   );
 }

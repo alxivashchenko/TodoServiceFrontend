@@ -1,19 +1,7 @@
-const BASE_URL = "http://localhost:8080/api/v1/auth";
+import api from "./axios";
 
-export async function loginRequest(data) {
-  const response = await fetch(`${BASE_URL}/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
+export const login = (data) => api.post("/api/v1/auth/login", data);
 
-export async function registerRequest(data) {
-  const response = await fetch(`${BASE_URL}/register`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-  return response.json();
-}
+export const register = (data) => api.post("/api/v1/auth/register", data);
+
+export const logout = () => api.post("/api/v1/auth/logout");
