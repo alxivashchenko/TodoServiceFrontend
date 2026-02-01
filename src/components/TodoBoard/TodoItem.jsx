@@ -25,19 +25,19 @@ export default function TodoItem({ item, index }) {
           }}
         >
           {/* Title */}
-          <div style={{ fontWeight: 600, fontSize: "14px" }}>
+          <div style={{ fontWeight: 600, fontSize: "16px" }}>
             {item.title ?? "(no title)"}
           </div>
 
           {/* Description */}
-          <div style={{ fontSize: "13px", opacity: 0.85 }}>
+          <div style={{ fontSize: "14px", opacity: 0.85 }}>
             {item.description ?? ""}
           </div>
 
           {/* User */}
-          <div style={{ fontSize: "11px", opacity: 0.6 }}>
+          {/* <div style={{ fontSize: "11px", opacity: 0.6 }}>
             User: {item.userId ?? "unknown"}
-          </div>
+          </div> */}
         </div>
       )}
     </Draggable>

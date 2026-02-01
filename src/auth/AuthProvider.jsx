@@ -1,14 +1,19 @@
 import { useState } from "react";
-import AuthContext from "./AuthContext";
+import { AuthContext } from "./AuthContext";
 import { login, register, logout } from "../api/authApi";
 
 export default function AuthProvider({ children }) {
-  const [accessToken, setAccessToken] = useState(null);
+  // ✅ lazy initialization (runs once)
+  const [accessToken, setAccessToken] = useState(() =>
+    localStorage.getItem("accessToken"),
+  );
 
   const loginUser = async (credentials) => {
     const res = await login(credentials);
-    localStorage.setItem("accessToken", res.data.accessToken);
-    setAccessToken(res.data.accessToken);
+    const token = res.data.accessToken;
+
+    localStorage.setItem("accessToken", token);
+    setAccessToken(token);
   };
 
   const registerUser = async (data) => {
@@ -16,7 +21,7 @@ export default function AuthProvider({ children }) {
   };
 
   const logoutUser = async () => {
-    await logout();
+    await logout(); // optional backend call
     localStorage.removeItem("accessToken");
     setAccessToken(null);
   };
@@ -24,7 +29,8 @@ export default function AuthProvider({ children }) {
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: !!accessToken,
+        isAuthenticated: Boolean(accessToken),
+        accessToken,
         loginUser,
         registerUser,
         logoutUser,

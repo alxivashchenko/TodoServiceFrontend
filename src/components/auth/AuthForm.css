@@ -1,0 +1,72 @@
+.auth-form-container {
+  width: 300px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+  background: #f5f5f5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.auth-form input {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 10px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.auth-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.backend-error {
+  margin-top: 10px;
+  color: red;
+}
+
+.toggle-mode {
+  margin-top: 12px;
+}
+
+.toggle-mode button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 0.9em;
+}
+
+.forgot-password {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #2563eb;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.forgot-password:hover {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+.forgot-password:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}

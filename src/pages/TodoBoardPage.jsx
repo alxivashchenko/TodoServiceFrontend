@@ -3,8 +3,10 @@ import TodoBoard from "../components/TodoBoard/TodoBoard";
 import TodoForm from "../components/TodoForm/TodoForm";
 import { getTodos, createTodo, updateTodo } from "../api/todoApi";
 import toast from "react-hot-toast";
+import { useAuth } from "../auth/AuthContext";
 
 export default function TodoBoardPage() {
+  const { logoutUser } = useAuth();
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -27,7 +29,6 @@ export default function TodoBoardPage() {
 
   const handleCreate = async (data) => {
     try {
-      console.log("POST /todos"); //to delete after testing
       await createTodo(data);
       toast.success("Todo created");
       await loadTodos();
@@ -48,11 +49,21 @@ export default function TodoBoardPage() {
     }
   };
 
+  const handleLogout = async () => {
+    await logoutUser();
+  };
+
   return (
     <>
+      <div className="todo-header">
+        <h2>My Todos</h2>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+
       <TodoForm onCreate={handleCreate} />
       <TodoBoard todos={todos} onStatusChange={handleStatusChange} />
-      {loading && <p>Loading todos...</p>}
+
+      {loading && <p>Loading...</p>}
     </>
   );
 }
