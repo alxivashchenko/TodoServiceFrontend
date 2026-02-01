@@ -2,7 +2,7 @@ import React from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import TodoItem from "./TodoItem";
 
-export default function TodoColumn({ title, items = [] }) {
+export default function TodoColumn({ title, items = [], onDelete }) {
   const containerStyle = {
     flex: 1,
     padding: "10px",
@@ -27,10 +27,14 @@ export default function TodoColumn({ title, items = [] }) {
             ref={provided.innerRef}
             {...provided.droppableProps}
             style={dropzoneStyle}
-            aria-label={`Todo column ${title}`}
           >
             {items.map((item, index) => (
-              <TodoItem key={item.id} item={item} index={index} />
+              <TodoItem
+                key={item.id}
+                item={item}
+                index={index}
+                onDelete={onDelete}
+              />
             ))}
 
             {provided.placeholder}

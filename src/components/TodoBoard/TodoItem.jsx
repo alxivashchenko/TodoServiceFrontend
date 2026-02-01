@@ -1,7 +1,7 @@
 import React from "react";
 import { Draggable } from "@hello-pangea/dnd";
 
-export default function TodoItem({ item, index }) {
+export default function TodoItem({ item, index, onDelete }) {
   if (!item) return null;
 
   return (
@@ -21,9 +21,31 @@ export default function TodoItem({ item, index }) {
             display: "flex",
             flexDirection: "column",
             gap: "4px",
+            position: "relative",
             ...provided.draggableProps.style,
           }}
         >
+          {/* Delete icon */}
+          <button
+            onClick={() => onDelete(item)}
+            title="Delete task"
+            onMouseEnter={(e) => (e.currentTarget.style.opacity = 1)}
+            onMouseLeave={(e) => (e.currentTarget.style.opacity = 0.6)}
+            style={{
+              position: "absolute",
+              top: "6px",
+              right: "6px",
+              border: "none",
+              background: "transparent",
+              cursor: "pointer",
+              fontSize: "14px",
+              opacity: 0.6,
+              transition: "opacity 0.2s",
+            }}
+          >
+            🗑
+          </button>
+
           {/* Title */}
           <div style={{ fontWeight: 600, fontSize: "16px" }}>
             {item.title ?? "(no title)"}
@@ -33,11 +55,6 @@ export default function TodoItem({ item, index }) {
           <div style={{ fontSize: "14px", opacity: 0.85 }}>
             {item.description ?? ""}
           </div>
-
-          {/* User */}
-          {/* <div style={{ fontSize: "11px", opacity: 0.6 }}>
-            User: {item.userId ?? "unknown"}
-          </div> */}
         </div>
       )}
     </Draggable>
