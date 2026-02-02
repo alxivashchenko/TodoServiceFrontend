@@ -1,8 +1,9 @@
+// TodoColumn.jsx
 import React from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import TodoItem from "./TodoItem";
 
-export default function TodoColumn({ title, items = [], onDelete }) {
+export default function TodoColumn({ title, items = [], onDelete, onUpdate }) {
   const containerStyle = {
     flex: 1,
     padding: "10px",
@@ -34,9 +35,9 @@ export default function TodoColumn({ title, items = [], onDelete }) {
                 item={item}
                 index={index}
                 onDelete={onDelete}
+                onUpdate={onUpdate}
               />
             ))}
-
             {provided.placeholder}
           </div>
         )}

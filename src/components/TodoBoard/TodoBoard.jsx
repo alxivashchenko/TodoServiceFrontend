@@ -1,3 +1,4 @@
+// TodoBoard.jsx
 import { useState, useEffect, useRef } from "react";
 import { DragDropContext } from "@hello-pangea/dnd";
 import toast from "react-hot-toast";
@@ -9,13 +10,37 @@ const STATUSES = ["TODO", "IN_PROGRESS", "COMPLETED", "POSTPONED", "CANCELED"];
 export default function TodoBoard({ todos, onStatusChange }) {
   const [localTodos, setLocalTodos] = useState(todos);
 
-  // snapshot BEFORE delete
   const backupRef = useRef(null);
   const pendingDeleteRef = useRef(null);
 
   useEffect(() => {
     setLocalTodos(todos);
   }, [todos]);
+
+  // --- inline edit update ---
+  const handleUpdate = async (id, updated) => {
+    const prev = localTodos;
+
+    const existing = localTodos.find((t) => t.id === id);
+    if (!existing) return;
+
+    const payload = {
+      ...existing, // keep status and other fields
+      ...updated, // overwrite title/description
+    };
+
+    // optimistic UI
+    setLocalTodos((list) => list.map((t) => (t.id === id ? payload : t)));
+
+    try {
+      await api.put(`/api/v1/todos/${id}`, payload);
+      toast.success("Task updated");
+    } catch (err) {
+      console.error("Update failed", err);
+      setLocalTodos(prev);
+      toast.error("Update failed");
+    }
+  };
 
   // --- group ---
   const grouped = STATUSES.reduce((acc, status) => {
@@ -41,9 +66,9 @@ export default function TodoBoard({ todos, onStatusChange }) {
     onStatusChange(todo, destination.droppableId);
   };
 
-  // --- delete ---
+  // --- delete (unchanged) ---
   const handleDelete = (task) => {
-    backupRef.current = localTodos; // save snapshot
+    backupRef.current = localTodos;
     pendingDeleteRef.current = task;
 
     setLocalTodos((prev) => prev.filter((t) => t.id !== task.id));
@@ -98,6 +123,7 @@ export default function TodoBoard({ todos, onStatusChange }) {
             title={status}
             items={grouped[status]}
             onDelete={handleDelete}
+            onUpdate={handleUpdate}
           />
         ))}
       </div>
