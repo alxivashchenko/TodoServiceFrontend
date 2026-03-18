@@ -48,3 +48,10 @@
 .nav-logout:hover {
   background: #c9302c;
 }
+
+.nav-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid white;
+}

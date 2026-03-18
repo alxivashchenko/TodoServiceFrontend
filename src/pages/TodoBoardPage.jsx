@@ -5,6 +5,7 @@ import TodoForm from "../components/TodoForm/TodoForm";
 import { getTodos, createTodo, updateTodo } from "../api/todoApi";
 import toast from "react-hot-toast";
 import { useAuth } from "../auth/AuthContext";
+import "./TodoBoardPage.css";
 
 export default function TodoBoardPage() {
   const { logoutUser } = useAuth();
@@ -57,7 +58,9 @@ export default function TodoBoardPage() {
   return (
     <>
       <div className="todo-header">
-        <Link to="/dashboard">← Back to Dashboard</Link>
+        <Link to="/dashboard" className="back-link">
+          ← Back to Dashboard
+        </Link>
 
         <h2>My Todos</h2>
 

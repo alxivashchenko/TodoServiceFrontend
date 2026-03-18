@@ -8,12 +8,22 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard">
-      <h1>Welcome, {user?.email || "user"}!</h1>
-      <p>This is your landing page.</p>
+      {user?.avatarUrl && (
+        <img src={user.avatarUrl} alt="avatar" className="dashboard-avatar" />
+      )}
+
+      <h1>Welcome, {user?.displayName || user?.email} 👋</h1>
+
+      <p>Your personal productivity space</p>
 
       <div className="dashboard-links">
-        <Link to="/todos">Go to My Todos</Link>
-        <Link to="/profile">View/Edit Profile</Link>
+        <Link to="/todos" className="dashboard-button">
+          My Todos
+        </Link>
+
+        <Link to="/profile" className="dashboard-button">
+          Profile Settings
+        </Link>
       </div>
     </div>
   );

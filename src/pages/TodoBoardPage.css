@@ -1,0 +1,11 @@
+.back-link {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #5a8dee;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}

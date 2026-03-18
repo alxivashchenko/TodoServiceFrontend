@@ -3,6 +3,7 @@ import { useAuth } from "../../auth/AuthContext";
 import { updateUser } from "../../api/userApi";
 import toast from "react-hot-toast";
 import "./Profile.css";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const { user, updateUserInfo } = useAuth();
@@ -72,6 +73,10 @@ export default function Profile() {
 
   return (
     <div className="profile">
+      <Link to="/dashboard" className="back-link">
+        ← Back to Dashboard
+      </Link>
+
       <h2>Profile</h2>
 
       {user?.createdAt && (
@@ -90,6 +95,20 @@ export default function Profile() {
           value={form.displayName}
           onChange={handleChange}
         />
+
+        {form.avatarUrl && (
+          <img
+            src={form.avatarUrl}
+            alt="avatar preview"
+            onError={(e) => (e.target.style.display = "none")}
+            style={{
+              width: "80px",
+              height: "80px",
+              borderRadius: "50%",
+              marginBottom: "10px",
+            }}
+          />
+        )}
 
         <label>Avatar URL</label>
         <input

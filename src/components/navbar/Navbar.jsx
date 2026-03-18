@@ -15,13 +15,20 @@ export default function Navbar() {
       </div>
 
       <div className="navbar-right">
-        {user && <span className="nav-user">Hi, {user.email}</span>}
+        {user?.avatarUrl && (
+          <img src={user.avatarUrl} alt="avatar" className="nav-avatar" />
+        )}
+
+        <span className="nav-user">{user?.displayName || user?.email}</span>
+
         <Link to="/todos" className="nav-link">
-          My Todos
+          Todos
         </Link>
+
         <Link to="/profile" className="nav-link">
           Profile
         </Link>
+
         <button onClick={logoutUser} className="nav-logout">
           Logout
         </button>
