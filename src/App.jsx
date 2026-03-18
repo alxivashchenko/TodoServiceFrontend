@@ -6,27 +6,45 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 
 import AuthPage from "./pages/AuthPage";
 import TodoBoardPage from "./pages/TodoBoardPage";
+import DashboardPage from "./pages/DashboardPage";
+import ProfilePage from "./pages/ProfilePage";
 
 export default function App() {
   return (
     <AuthProvider>
-      {/* Global toaster – MUST be mounted once */}
       <Toaster position="top-right" />
 
       <BrowserRouter>
         <Routes>
-          {/* Redirect root */}
-          <Route path="/" element={<Navigate to="/auth" />} />
+          <Route path="/" element={<Navigate to="/dashboard" />} />
 
-          {/* Public routes */}
+          {/* Public */}
           <Route path="/auth" element={<AuthPage />} />
 
-          {/* Protected routes */}
+          {/* Protected */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+
           <Route
             path="/todos"
             element={
               <ProtectedRoute>
                 <TodoBoardPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             }
           />

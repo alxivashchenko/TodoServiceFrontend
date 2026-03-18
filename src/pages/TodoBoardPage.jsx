@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TodoBoard from "../components/TodoBoard/TodoBoard";
 import TodoForm from "../components/TodoForm/TodoForm";
@@ -34,7 +35,7 @@ export default function TodoBoardPage() {
       await loadTodos();
     } catch (error) {
       console.error("Create failed", error);
-      throw error; // keep form error handling working
+      throw error;
     }
   };
 
@@ -56,7 +57,10 @@ export default function TodoBoardPage() {
   return (
     <>
       <div className="todo-header">
+        <Link to="/dashboard">← Back to Dashboard</Link>
+
         <h2>My Todos</h2>
+
         <button onClick={handleLogout}>Logout</button>
       </div>
 

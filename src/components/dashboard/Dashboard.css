@@ -1,0 +1,21 @@
+.dashboard {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.dashboard-links {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dashboard-links a {
+  text-decoration: none;
+  color: #5a8dee;
+  font-weight: 500;
+}
+
+.dashboard-links a:hover {
+  text-decoration: underline;
+}

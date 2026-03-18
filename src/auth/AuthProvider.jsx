@@ -1,12 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AuthContext } from "./AuthContext";
 import { login, register, logout } from "../api/authApi";
+import { getUser } from "../api/userApi";
 
 export default function AuthProvider({ children }) {
-  // ✅ lazy initialization (runs once)
   const [accessToken, setAccessToken] = useState(() =>
     localStorage.getItem("accessToken"),
   );
+
+  const [user, setUser] = useState(null);
+
+  // ---- load user when token exists ----
+  useEffect(() => {
+    if (!accessToken) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await getUser();
+        setUser(res.data);
+      } catch (err) {
+        console.error("Failed to load user", err);
+        setUser(null);
+      }
+    };
+
+    fetchUser();
+  }, [accessToken]);
 
   const loginUser = async (credentials) => {
     const res = await login(credentials);
@@ -18,12 +37,23 @@ export default function AuthProvider({ children }) {
 
   const registerUser = async (data) => {
     await register(data);
+
+    // auto login after register
+    await loginUser({
+      email: data.email,
+      password: data.password,
+    });
   };
 
   const logoutUser = async () => {
-    await logout(); // optional backend call
+    await logout();
     localStorage.removeItem("accessToken");
     setAccessToken(null);
+    setUser(null);
+  };
+
+  const updateUserInfo = (newUser) => {
+    setUser(newUser);
   };
 
   return (
@@ -31,9 +61,11 @@ export default function AuthProvider({ children }) {
       value={{
         isAuthenticated: Boolean(accessToken),
         accessToken,
+        user,
         loginUser,
         registerUser,
         logoutUser,
+        updateUserInfo,
       }}
     >
       {children}

@@ -47,7 +47,8 @@ export default function AuthForm({ mode }) {
           password: form.password,
         });
 
-        toast.success("Registered! You can now log in.");
+        toast.success("Registered!");
+        navigate("/dashboard");
       }
 
       setForm({ email: "", password: "", confirmPassword: "" });
