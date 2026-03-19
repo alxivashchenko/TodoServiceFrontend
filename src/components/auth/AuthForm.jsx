@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import "./AuthForm.css";
 
 export default function AuthForm({ mode }) {
@@ -34,11 +34,17 @@ export default function AuthForm({ mode }) {
           password: form.password,
         });
 
+        // ✅ Show toast immediately
         toast.success("Logged in!");
-        navigate("/todos"); // ✅ redirect after login
+
+        // ✅ Small delay to allow toast to render before navigation
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 50);
       } else {
         if (form.password !== form.confirmPassword) {
           setBackendError("Passwords do not match");
+          setLoading(false);
           return;
         }
 
@@ -48,7 +54,9 @@ export default function AuthForm({ mode }) {
         });
 
         toast.success("Registered!");
-        navigate("/dashboard");
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 50);
       }
 
       setForm({ email: "", password: "", confirmPassword: "" });
@@ -116,8 +124,6 @@ export default function AuthForm({ mode }) {
       )}
 
       {backendError && <div className="backend-error">{backendError}</div>}
-
-      <Toaster position="top-right" />
     </>
   );
 }

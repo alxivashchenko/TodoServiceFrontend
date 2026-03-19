@@ -12,9 +12,16 @@ import ProfilePage from "./pages/ProfilePage";
 export default function App() {
   return (
     <AuthProvider>
-      <Toaster position="top-right" />
-
       <BrowserRouter>
+        {/* Global Toaster */}
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 2000,
+            style: { fontSize: "14px" },
+          }}
+        />
+
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
 
