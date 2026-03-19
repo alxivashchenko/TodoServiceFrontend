@@ -2,13 +2,14 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import TodoBoard from "../components/TodoBoard/TodoBoard";
 import TodoForm from "../components/TodoForm/TodoForm";
+import Navbar from "../components/navbar/Navbar";
+
 import { getTodos, createTodo, updateTodo } from "../api/todoApi";
 import toast from "react-hot-toast";
-import { useAuth } from "../auth/AuthContext";
+
 import "./TodoBoardPage.css";
 
 export default function TodoBoardPage() {
-  const { logoutUser } = useAuth();
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -51,26 +52,29 @@ export default function TodoBoardPage() {
     }
   };
 
-  const handleLogout = async () => {
-    await logoutUser();
-  };
-
   return (
     <>
-      <div className="todo-header">
-        <Link to="/dashboard" className="back-link">
-          ← Back to Dashboard
-        </Link>
+      <Navbar />
 
-        <h2>My Todos</h2>
+      <div className="todo-page">
+        <div className="todo-page-header">
+          <div>
+            <Link to="/dashboard" className="back-link">
+              ← Back to Dashboard
+            </Link>
+            <h2>My Todos</h2>
+          </div>
+        </div>
 
-        <button onClick={handleLogout}>Logout</button>
+        <div className="todo-page-content">
+          <TodoForm onCreate={handleCreate} />
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            <TodoBoard todos={todos} onStatusChange={handleStatusChange} />
+          )}
+        </div>
       </div>
-
-      <TodoForm onCreate={handleCreate} />
-      <TodoBoard todos={todos} onStatusChange={handleStatusChange} />
-
-      {loading && <p>Loading...</p>}
     </>
   );
 }
