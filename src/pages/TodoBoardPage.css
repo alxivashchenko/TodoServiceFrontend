@@ -32,3 +32,9 @@
 .back-link:hover {
   text-decoration: underline;
 }
+
+.empty-state {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+}

@@ -69,7 +69,12 @@ export default function TodoBoardPage() {
         <div className="todo-page-content">
           <TodoForm onCreate={handleCreate} />
           {loading ? (
-            <p>Loading...</p>
+            <p className="loading">Loading todos...</p>
+          ) : todos.length === 0 ? (
+            <div className="empty-state">
+              <p>No todos yet 👀</p>
+              <span>Create your first task above</span>
+            </div>
           ) : (
             <TodoBoard todos={todos} onStatusChange={handleStatusChange} />
           )}
