@@ -38,3 +38,8 @@
   padding: 30px;
   color: #777;
 }
+
+.loading {
+  text-align: center;
+  color: #888;
+}

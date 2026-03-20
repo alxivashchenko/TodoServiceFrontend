@@ -45,7 +45,7 @@ export default function TodoForm({ onCreate }) {
     }
   };
 
-  const isFormIncomplete = !form.title || !form.description;
+  const isFormIncomplete = !form.title?.trim() || !form.description?.trim();
 
   return (
     <>
