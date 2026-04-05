@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const api = axios.create({
-  // baseURL: "http://localhost:8084",    
-  baseURL: "http://93.99.104.5:8084",
+  // baseURL: "http://localhost:8084",
+  baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
 });
 
@@ -37,7 +37,7 @@ api.interceptors.response.use(
       try {
         const refreshRes = await axios.post(
           // "http://localhost:8084/api/v1/auth/refresh",
-          "http://93.99.104.5:8084/api/v1/auth/refresh",
+          "/api/v1/auth/refresh",
           {},
           { withCredentials: true },
         );
